@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:machn_tst/models/product.dart';
 import 'package:machn_tst/view/widgets/staticproductCard.dart';
@@ -17,25 +19,34 @@ class _ProductPageState extends State<ProductPage> {
   @override
   void initState() {
     super.initState();
-    print('hiiiiiiiiiiii');
+    print(
+        '==========================================product====================================');
     _products = _fetchProducts();
   }
 
   Future<List<Product>> _fetchProducts() async {
-    final response =
-        await http.get(Uri.parse('http://143.198.61.94:8000/api/products'));
+    final client = http.Client();
+    final request =
+        client.get(Uri.parse('http://143.198.61.94:8000/api/products'));
 
-    if (response.statusCode == 200) {
-      final jsonData = jsonDecode(response.body);
-      final products = jsonData['data']
-          .cast<
-              Map<String,
-                  dynamic>>() // Cast each JSON object to Map<String, dynamic>
-          .map<Product>((jsonProduct) => Product.fromJson(jsonProduct))
-          .toList();
-      return products;
-    } else {
-      throw Exception('Failed to load products');
+    try {
+      final response = await request.timeout(const Duration(seconds: 5));
+      if (response.statusCode == 200) {
+        final jsonData = jsonDecode(response.body);
+        final products = jsonData['data']
+            .cast<Map<String, dynamic>>()
+            .map<Product>((jsonProduct) => Product.fromJson(jsonProduct))
+            .toList();
+        return products;
+      } else {
+        throw Exception('Failed to load products');
+      }
+    } catch (e) {
+      if (e is TimeoutException) {
+        throw Exception('Timed Out');
+      } else {
+        throw Exception('Failed to load products');
+      }
     }
   }
 
@@ -57,7 +68,9 @@ class _ProductPageState extends State<ProductPage> {
           Stack(
             children: [
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, '/wishlist');
+                },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
                     shape: const CircleBorder(),
@@ -94,7 +107,9 @@ class _ProductPageState extends State<ProductPage> {
               child: Stack(
                 children: [
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/cart');
+                    },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
                         shape: const CircleBorder(),
@@ -128,31 +143,34 @@ class _ProductPageState extends State<ProductPage> {
               ))
         ],
       ),
-      body: FutureBuilder<List<Product>>(
-        future: _products,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return GridView.builder(
-              shrinkWrap: true,
-              physics: const BouncingScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 8,
-                mainAxisSpacing: 20,
-              ),
-              itemCount: snapshot.data!.length,
-              itemBuilder: (context, index) {
-                return ProductCard(
-                  product: snapshot.data![index],
-                );
-              },
-            );
-          } else if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
-          } else {
-            return const Center(child: CircularProgressIndicator());
-          }
-        },
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: FutureBuilder<List<Product>>(
+          future: _products,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return GridView.builder(
+                shrinkWrap: true,
+                physics: const BouncingScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 8,
+                  mainAxisSpacing: 20,
+                ),
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, index) {
+                  return ProductCard(
+                    product: snapshot.data![index],
+                  );
+                },
+              );
+            } else if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            } else {
+              return const Center(child: CircularProgressIndicator());
+            }
+          },
+        ),
       ),
     );
   }

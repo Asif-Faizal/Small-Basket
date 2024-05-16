@@ -70,7 +70,17 @@ class ProductCard extends StatelessWidget {
                             ),
                             ElevatedButton(
                               onPressed: () {
-                                // Add your onPressed logic here
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        action: SnackBarAction(
+                                            label: 'undo', onPressed: () {}),
+                                        behavior: SnackBarBehavior.floating,
+                                        content: Text(
+                                          '1kg ${product.name} added to Cart',
+                                          style: const TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold),
+                                        )));
                               },
                               style: ElevatedButton.styleFrom(
                                 shape: const CircleBorder(),
@@ -95,7 +105,7 @@ class ProductCard extends StatelessWidget {
             left: 0,
             right: 0,
             child: Image.network(
-              product.imageUrl,
+              product.imageUrl ?? '',
               height: 100,
               width: 100,
               fit: BoxFit.contain,

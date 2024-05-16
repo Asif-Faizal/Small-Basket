@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:machn_tst/models/customer.dart';
 
-class customerCard extends StatelessWidget {
-  const customerCard({
+class CustomerCard extends StatelessWidget {
+  final Customer customer;
+  const CustomerCard({
     super.key,
+    required this.customer,
   });
 
   @override
@@ -35,9 +38,9 @@ class customerCard extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'name',
-                          style: TextStyle(
+                        Text(
+                          customer.name,
+                          style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                               color: Colors.black),
@@ -46,12 +49,12 @@ class customerCard extends StatelessWidget {
                           height: 5,
                         ),
                         Text(
-                          'id',
+                          customer.id.toString(),
                           style: TextStyle(
                               fontSize: 14, color: Colors.grey.shade800),
                         ),
                         Text(
-                          'street, street_two, city',
+                          '${customer.street}, ${customer.street_two}, ${customer.city}',
                           style: TextStyle(
                               fontSize: 14, color: Colors.grey.shade800),
                         ),

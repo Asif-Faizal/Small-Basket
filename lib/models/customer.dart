@@ -18,10 +18,10 @@ class Customer {
   factory Customer.fromJson(Map<String, dynamic> json) {
     return Customer(
         id: json['id'],
-        name: json['id'],
-        street: json['id'],
-        street_two: json['id'],
-        city: json['id'],
-        imageUrl: json['id']);
+        name: json['name'],
+        street: json['street'],
+        street_two: json['street_two'],
+        city: json['city'],
+        imageUrl: json['profile_pic'] ?? '');
   }
 }

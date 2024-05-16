@@ -44,6 +44,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(),
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: [
@@ -51,28 +52,25 @@ class _HomePageState extends State<HomePage> {
             elevation: 0,
             scrolledUnderElevation: 0,
             expandedHeight: 150,
+            foregroundColor: Theme.of(context).colorScheme.secondary,
             backgroundColor: Theme.of(context).colorScheme.background,
             flexibleSpace: FlexibleSpaceBar(
-              titlePadding: const EdgeInsets.only(bottom: 90, left: 20),
-              title: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Good Day!',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.secondary,
-                      fontSize: 24,
-                    ),
-                  ),
-                ],
+              titlePadding: const EdgeInsets.only(bottom: 90, left: 50),
+              title: Text(
+                'Good Day!',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.secondary,
+                  fontSize: 24,
+                ),
               ),
             ),
             actions: [
               Stack(
                 children: [
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/wishlist');
+                    },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
                         shape: const CircleBorder(),
@@ -109,7 +107,9 @@ class _HomePageState extends State<HomePage> {
                   child: Stack(
                     children: [
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/cart');
+                        },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.white,
                             shape: const CircleBorder(),
