@@ -1,22 +1,22 @@
-import 'package:hive/hive.dart';
-
-@HiveType(typeId: 0)
 class Product {
-  @HiveField(0)
-  final String id;
-
-  @HiveField(1)
+  final int id;
   final String name;
-
-  @HiveField(2)
   final double price;
-
-  @HiveField(3)
   final String imageUrl;
 
-  Product(
-      {required this.id,
-      required this.name,
-      required this.price,
-      required this.imageUrl});
+  Product({
+    required this.id,
+    required this.name,
+    required this.price,
+    required this.imageUrl,
+  });
+
+  factory Product.fromJson(Map<String, dynamic> json) {
+    return Product(
+      id: json['id'],
+      name: json['name'],
+      price: json['price'].toDouble(),
+      imageUrl: json['image'] ?? '',
+    );
+  }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:machn_tst/models/product.dart';
 import 'package:machn_tst/view/widgets/catogoryList.dart';
 import 'package:machn_tst/view/widgets/offerlist.dart';
-import 'package:machn_tst/view/widgets/productCard.dart';
+import 'package:machn_tst/view/widgets/staticproductCard.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -16,25 +16,25 @@ class _HomePageState extends State<HomePage> {
 
   List<Product> products = [
     Product(
-        id: 'h1',
+        id: 1,
         name: "Product 1",
         price: 29.99,
         imageUrl:
             "https://atlas-content-cdn.pixelsquid.com/stock-images/small-bottle-of-milk-rv2NEl2-600.jpg"),
     Product(
-        id: 'h2',
+        id: 2,
         name: "Product 1",
         price: 29.99,
         imageUrl:
             "https://atlas-content-cdn.pixelsquid.com/stock-images/small-bottle-of-milk-rv2NEl2-600.jpg"),
     Product(
-        id: 'h3',
+        id: 3,
         name: "Product 1",
         price: 29.99,
         imageUrl:
             "https://atlas-content-cdn.pixelsquid.com/stock-images/small-bottle-of-milk-rv2NEl2-600.jpg"),
     Product(
-        id: 'h4',
+        id: 4,
         name: "Product 2",
         price: 39.99,
         imageUrl:
@@ -239,7 +239,9 @@ class _HomePageState extends State<HomePage> {
                 ),
                 itemCount: products.length,
                 itemBuilder: (context, index) {
-                  return ProductCard(product: products[index]);
+                  return ProductCard(
+                    product: products[index],
+                  );
                 },
               ),
             ),

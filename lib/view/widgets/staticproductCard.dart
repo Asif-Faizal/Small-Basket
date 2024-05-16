@@ -4,28 +4,28 @@ import 'package:machn_tst/models/product.dart';
 class ProductCard extends StatelessWidget {
   final Product product;
 
-  ProductCard({required this.product});
+  const ProductCard({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(
+        SizedBox(
           height: 170,
           child: Column(
             children: [
               const SizedBox(
-                height: 40,
+                height: 20,
               ),
-              Container(
-                height: 130,
+              SizedBox(
+                height: 150,
                 child: Card(
                   elevation: 5,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 20),
+                    padding: const EdgeInsets.only(left: 10),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -45,7 +45,7 @@ class ProductCard extends StatelessWidget {
                                     fontSize: 16,
                                   ),
                                 ),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 Row(
                                   children: [
                                     Text(
@@ -91,18 +91,17 @@ class ProductCard extends StatelessWidget {
           ),
         ),
         Positioned(
-          top: 0,
-          left: 0,
-          right: 0,
-          child: Center(
-              child: Image.network(
-            product.imageUrl,
-            height: 100,
-            width: 100,
-          )),
-        ),
+            top: 0,
+            left: 0,
+            right: 0,
+            child: Image.network(
+              product.imageUrl,
+              height: 100,
+              width: 100,
+              fit: BoxFit.contain,
+            )),
         Positioned(
-            top: 50,
+            top: 30,
             right: 10,
             child: Icon(
               Icons.favorite,
