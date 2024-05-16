@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:machn_tst/models/product.dart';
+import 'package:machn_tst/view/widgets/appbarActions.dart';
 import 'package:machn_tst/view/widgets/catogoryList.dart';
 import 'package:machn_tst/view/widgets/myDrawer.dart';
 import 'package:machn_tst/view/widgets/offerlist.dart';
@@ -18,28 +19,26 @@ class _HomePageState extends State<HomePage> {
   List<Product> products = [
     Product(
         id: 1,
-        name: "Product 1",
-        price: 29.99,
-        imageUrl:
-            "https://atlas-content-cdn.pixelsquid.com/stock-images/small-bottle-of-milk-rv2NEl2-600.jpg"),
-    Product(
-        id: 2,
-        name: "Product 1",
-        price: 29.99,
-        imageUrl:
-            "https://atlas-content-cdn.pixelsquid.com/stock-images/small-bottle-of-milk-rv2NEl2-600.jpg"),
+        name: "Orange",
+        price: 40,
+        imageUrl: "http://143.198.61.94:8000/media/products/images.jpeg"),
     Product(
         id: 3,
-        name: "Product 1",
-        price: 29.99,
+        name: "Papaya",
+        price: 100,
+        imageUrl: "http://143.198.61.94:8000/media/products/Papaya.png.webp"),
+    Product(
+        id: 3,
+        name: "Cherry",
+        price: 300,
         imageUrl:
-            "https://atlas-content-cdn.pixelsquid.com/stock-images/small-bottle-of-milk-rv2NEl2-600.jpg"),
+            "http://143.198.61.94:8000/media/products/810eZqaozxL._AC_UF10001000_QL80_.jpg"),
     Product(
         id: 4,
-        name: "Product 2",
-        price: 39.99,
+        name: "Mango",
+        price: 50,
         imageUrl:
-            "https://atlas-content-cdn.pixelsquid.com/stock-images/small-bottle-of-milk-rv2NEl2-600.jpg"),
+            "http://143.198.61.94:8000/media/products/big_205179_manogo.jpg"),
   ];
 
   @override
@@ -66,84 +65,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            actions: [
-              Stack(
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/wishlist');
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        shape: const CircleBorder(),
-                        padding: const EdgeInsets.all(10)),
-                    child: Icon(
-                      Icons.favorite,
-                      size: 28,
-                      color: Theme.of(context).colorScheme.secondary,
-                    ),
-                  ),
-                  Positioned(
-                      top: 5,
-                      right: 5,
-                      child: Container(
-                        height: 15,
-                        width: 15,
-                        decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.error,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: const Center(
-                          child: Text(
-                            '0',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      )),
-                ],
-              ),
-              Padding(
-                  padding: const EdgeInsets.only(right: 10),
-                  child: Stack(
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/cart');
-                        },
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            shape: const CircleBorder(),
-                            padding: const EdgeInsets.all(10)),
-                        child: Icon(
-                          Icons.shopping_cart_rounded,
-                          size: 28,
-                          color: Theme.of(context).colorScheme.secondary,
-                        ),
-                      ),
-                      Positioned(
-                          top: 5,
-                          right: 5,
-                          child: Container(
-                            height: 15,
-                            width: 15,
-                            decoration: BoxDecoration(
-                                color: Theme.of(context).colorScheme.error,
-                                borderRadius: BorderRadius.circular(10)),
-                            child: const Center(
-                              child: Text(
-                                '0',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          )),
-                    ],
-                  )),
-            ],
+            actions: const [AppbarActions()],
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(60),
               child: Padding(

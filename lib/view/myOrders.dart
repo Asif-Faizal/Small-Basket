@@ -5,6 +5,19 @@ class MyOrdersPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.background,
+        foregroundColor: Theme.of(context).colorScheme.secondary,
+        elevation: 0,
+        title: Text('My Orders'),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pushReplacementNamed(context, '/');
+            },
+            icon: Icon(Icons.arrow_back_rounded)),
+      ),
+    );
   }
 }

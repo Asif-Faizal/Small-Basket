@@ -114,7 +114,7 @@ class StaticProductCard extends StatelessWidget {
               product.imageUrl,
               height: 80,
               width: 80,
-              fit: BoxFit.contain,
+              fit: BoxFit.cover,
             )),
         Positioned(
             top: 30,

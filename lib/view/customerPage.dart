@@ -29,7 +29,12 @@ class _CustomerPageState extends State<CustomerPage> {
         title: const Text(
           'Customers',
         ),
-        leading: const Icon(Icons.arrow_back_ios_new_rounded),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new_rounded),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
         actions: const [
           Icon(
             Icons.list_rounded,
@@ -167,8 +172,13 @@ class _CustomerPageState extends State<CustomerPage> {
                 physics: const BouncingScrollPhysics(),
                 itemCount: state.customers.length,
                 itemBuilder: (context, index) {
-                  return CustomerCard(
-                    customer: state.customers[index],
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/orderplaced');
+                    },
+                    child: CustomerCard(
+                      customer: state.customers[index],
+                    ),
                   );
                 },
               );

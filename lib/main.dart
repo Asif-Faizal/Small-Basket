@@ -5,9 +5,9 @@ import 'package:machn_tst/models/colors.dart';
 import 'package:machn_tst/repository/customer_repository.dart';
 import 'package:machn_tst/view/cartPage.dart';
 import 'package:machn_tst/view/customerPage.dart';
-import 'package:machn_tst/view/ddetailsPage.dart';
 import 'package:machn_tst/view/homePage.dart';
 import 'package:machn_tst/view/myOrders.dart';
+import 'package:machn_tst/view/orderPlaced.dart';
 import 'package:machn_tst/view/productPage.dart';
 import 'package:machn_tst/view/wishlist_page.dart';
 import 'package:machn_tst/viewmodel/bottom_nav_viewmodel.dart';
@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
           '/wishlist': (context) => const WishlistPage(),
           '/cart': (context) => const CartPage(),
           '/myorders': (context) => const MyOrdersPage(),
-          '/details': (context) => const DetailsPage(),
+          '/orderplaced': (context) => const OrderPlaced(),
         },
       ),
     );
@@ -70,7 +70,8 @@ class MyBottomNavPage extends StatelessWidget {
           topLeft: Radius.elliptical(200, 10),
           topRight: Radius.elliptical(200, 10),
         ),
-        child: SizedBox(
+        child: Container(
+          color: Colors.transparent,
           height: 80,
           child: BottomNavigationBar(
             elevation: 3,
