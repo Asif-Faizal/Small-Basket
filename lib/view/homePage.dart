@@ -241,7 +241,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 itemCount: products.length,
                 itemBuilder: (context, index) {
-                  return ProductCard(
+                  return StaticProductCard(
                     product: products[index],
                   );
                 },

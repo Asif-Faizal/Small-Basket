@@ -85,7 +85,65 @@ class _CustomerPageState extends State<CustomerPage> {
                           Icons.qr_code_rounded,
                         ),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext ctx) {
+                                TextEditingController nameController =
+                                    TextEditingController();
+                                TextEditingController emailController =
+                                    TextEditingController();
+                                TextEditingController phoneController =
+                                    TextEditingController();
+
+                                return AlertDialog(
+                                  title: Text("Add Customer"),
+                                  content: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      TextField(
+                                        controller: nameController,
+                                        decoration:
+                                            InputDecoration(labelText: "Name"),
+                                      ),
+                                      TextField(
+                                        controller: emailController,
+                                        decoration: InputDecoration(
+                                            labelText: "Address"),
+                                      ),
+                                      TextField(
+                                        controller: phoneController,
+                                        decoration:
+                                            InputDecoration(labelText: "Phone"),
+                                      ),
+                                    ],
+                                  ),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () {},
+                                      child: Container(
+                                        padding: const EdgeInsets.all(14),
+                                        child: const Text("Cancel"),
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        String name = nameController.text;
+                                        String email = emailController.text;
+                                        String phone = phoneController.text;
+                                        Navigator.of(ctx)
+                                            .pop(); // Close the dialog
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.all(14),
+                                        child: const Text("Add"),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.indigo,
                             shape: const CircleBorder(),

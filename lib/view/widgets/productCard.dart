@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:machn_tst/models/product.dart';
 
-class StaticProductCard extends StatelessWidget {
+class ProductCard extends StatelessWidget {
   final Product product;
 
-  const StaticProductCard({super.key, required this.product});
+  const ProductCard({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -111,10 +111,10 @@ class StaticProductCard extends StatelessWidget {
             top: 0,
             left: 25,
             child: Image.network(
-              product.imageUrl,
+              'http://143.198.61.94:8000${product.imageUrl}',
               height: 80,
               width: 80,
-              fit: BoxFit.contain,
+              fit: BoxFit.cover,
             )),
         Positioned(
             top: 30,

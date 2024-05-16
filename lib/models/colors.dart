@@ -10,7 +10,7 @@ ColorScheme myColorScheme = const ColorScheme(
   secondary: secondaryColor,
   brightness: Brightness.light,
   error: Colors.red,
-  surface: Colors.white,
+  surface: Color.fromARGB(209, 127, 201, 42),
   background: bachground,
   onPrimary: Colors.white,
   onSecondary: Color.fromARGB(98, 163, 252, 61),

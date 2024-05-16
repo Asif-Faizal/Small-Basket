@@ -7,7 +7,7 @@ import 'package:machn_tst/bloc/product_event.dart';
 import 'package:machn_tst/bloc/product_state.dart';
 import 'package:machn_tst/models/product.dart';
 import 'package:machn_tst/repository/product_repository.dart';
-import 'package:machn_tst/view/widgets/staticproductCard.dart';
+import 'package:machn_tst/view/widgets/productCard.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -155,16 +155,19 @@ class _ProductPageState extends State<ProductPage> {
             } else if (state is ProductsLoading) {
               return const Center(child: CircularProgressIndicator());
             } else if (state is ProductsLoaded) {
-              return GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2),
-                physics: const BouncingScrollPhysics(),
-                itemCount: state.products.length,
-                itemBuilder: (context, index) {
-                  return ProductCard(
-                    product: state.products[index],
-                  );
-                },
+              return Container(
+                color: Theme.of(context).colorScheme.background,
+                child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2),
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: state.products.length,
+                  itemBuilder: (context, index) {
+                    return ProductCard(
+                      product: state.products[index],
+                    );
+                  },
+                ),
               );
             } else if (state is ProductsError) {
               return Center(child: Text(state.error));

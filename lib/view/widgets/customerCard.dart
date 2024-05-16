@@ -10,6 +10,8 @@ class CustomerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var defaultImageUrl =
+        'http://143.198.61.94:8000/media/customers/avatar.jpg';
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       child: SizedBox(
@@ -27,9 +29,43 @@ class CustomerCard extends StatelessWidget {
                       width: 80,
                       height: 65,
                       child: Container(
-                        color: Colors.black,
+                        color: Theme.of(context).colorScheme.background,
                         height: 100,
                         width: 100,
+                        child: Stack(
+                          children: [
+                            const Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                            Positioned.fill(
+                              child: Image.network(
+                                customer.imageUrl.isEmpty
+                                    ? defaultImageUrl
+                                    : 'http://143.198.61.94:8000${customer.imageUrl}',
+                                fit: BoxFit.cover,
+                                loadingBuilder: (BuildContext context,
+                                    Widget child,
+                                    ImageChunkEvent? loadingProgress) {
+                                  if (loadingProgress == null) {
+                                    return child;
+                                  }
+                                  return Center(
+                                    child: CircularProgressIndicator(
+                                      value:
+                                          loadingProgress.expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes!
+                                              : null,
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     const SizedBox(
