@@ -102,12 +102,11 @@ class ProductCard extends StatelessWidget {
         ),
         Positioned(
             top: 0,
-            left: 0,
-            right: 0,
+            left: 25,
             child: Image.network(
               product.imageUrl ?? '',
-              height: 100,
-              width: 100,
+              height: 80,
+              width: 80,
               fit: BoxFit.contain,
             )),
         Positioned(

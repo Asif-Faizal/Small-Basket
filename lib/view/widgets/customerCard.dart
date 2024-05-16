@@ -65,14 +65,17 @@ class CustomerCard extends StatelessWidget {
               ),
             ),
             const Positioned(
-              top: 10,
-              right: 10,
+              top: 15,
+              right: 15,
               child: SizedBox(
                 child: Row(
                   children: [
                     Icon(
                       Icons.call,
                       size: 15,
+                    ),
+                    SizedBox(
+                      width: 10,
                     ),
                     Icon(
                       Icons.message_rounded,

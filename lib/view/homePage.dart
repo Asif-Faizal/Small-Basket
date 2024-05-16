@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:machn_tst/models/product.dart';
 import 'package:machn_tst/view/widgets/catogoryList.dart';
+import 'package:machn_tst/view/widgets/myDrawer.dart';
 import 'package:machn_tst/view/widgets/offerlist.dart';
 import 'package:machn_tst/view/widgets/staticproductCard.dart';
 
@@ -44,7 +45,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(),
+      drawer: MyDrawer(),
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: [
@@ -55,12 +56,13 @@ class _HomePageState extends State<HomePage> {
             foregroundColor: Theme.of(context).colorScheme.secondary,
             backgroundColor: Theme.of(context).colorScheme.background,
             flexibleSpace: FlexibleSpaceBar(
-              titlePadding: const EdgeInsets.only(bottom: 90, left: 50),
+              titlePadding:
+                  const EdgeInsets.only(bottom: 90, left: 60, top: 25),
               title: Text(
-                'Good Day!',
+                'Good Day! 👋',
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.secondary,
-                  fontSize: 24,
+                  fontSize: 20,
                 ),
               ),
             ),

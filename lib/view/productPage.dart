@@ -1,7 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:machn_tst/bloc/product_bloc.dart';
+import 'package:machn_tst/bloc/product_event.dart';
+import 'package:machn_tst/bloc/product_state.dart';
 import 'package:machn_tst/models/product.dart';
+import 'package:machn_tst/repository/product_repository.dart';
 import 'package:machn_tst/view/widgets/staticproductCard.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -14,14 +19,11 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends State<ProductPage> {
-  Future<List<Product>>? _products;
-
   @override
   void initState() {
     super.initState();
     print(
         '==========================================product====================================');
-    _products = _fetchProducts();
   }
 
   Future<List<Product>> _fetchProducts() async {
@@ -143,31 +145,31 @@ class _ProductPageState extends State<ProductPage> {
               ))
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: FutureBuilder<List<Product>>(
-          future: _products,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
+      body: BlocProvider(
+        create: (context) => ProductBloc(ProductRepositoryImpl(http.Client())),
+        child: BlocBuilder<ProductBloc, ProductState>(
+          builder: (context, state) {
+            if (state is ProductInitial) {
+              BlocProvider.of<ProductBloc>(context).add(LoadProducts());
+              return const Center(child: CircularProgressIndicator());
+            } else if (state is ProductsLoading) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state is ProductsLoaded) {
               return GridView.builder(
-                shrinkWrap: true,
-                physics: const BouncingScrollPhysics(),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 8,
-                  mainAxisSpacing: 20,
-                ),
-                itemCount: snapshot.data!.length,
+                    crossAxisCount: 2),
+                physics: const BouncingScrollPhysics(),
+                itemCount: state.products.length,
                 itemBuilder: (context, index) {
                   return ProductCard(
-                    product: snapshot.data![index],
+                    product: state.products[index],
                   );
                 },
               );
-            } else if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
+            } else if (state is ProductsError) {
+              return Center(child: Text(state.error));
             } else {
-              return const Center(child: CircularProgressIndicator());
+              return const Center(child: Text('Unknown state'));
             }
           },
         ),
