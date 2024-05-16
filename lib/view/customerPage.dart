@@ -18,13 +18,6 @@ class _CustomerPageState extends State<CustomerPage> {
   final _controller = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
-    print(
-        '========================================customer=========================================');
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -128,11 +121,7 @@ class _CustomerPageState extends State<CustomerPage> {
                                     ),
                                     TextButton(
                                       onPressed: () {
-                                        String name = nameController.text;
-                                        String email = emailController.text;
-                                        String phone = phoneController.text;
-                                        Navigator.of(ctx)
-                                            .pop(); // Close the dialog
+                                        Navigator.of(ctx).pop();
                                       },
                                       child: Container(
                                         padding: const EdgeInsets.all(14),

@@ -19,13 +19,6 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends State<ProductPage> {
-  @override
-  void initState() {
-    super.initState();
-    print(
-        '==========================================product====================================');
-  }
-
   Future<List<Product>> _fetchProducts() async {
     final client = http.Client();
     final request =
