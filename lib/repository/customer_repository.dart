@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:machn_tst/models/customer.dart';
 
 abstract class CustomerRepository {
-  Future<List<Customer>> fetchCustomers();
+  Future<List<Customer>> fetchCustomers({String query});
 }
 
 class CustomerRepositoryImpl implements CustomerRepository {
@@ -14,19 +14,20 @@ class CustomerRepositoryImpl implements CustomerRepository {
   CustomerRepositoryImpl(this._client);
 
   @override
-  Future<List<Customer>> fetchCustomers() async {
-    final request =
-        _client.get(Uri.parse('http://143.198.61.94:8000/api/customers'));
+  Future<List<Customer>> fetchCustomers({String query = ''}) async {
+    final url = Uri.parse(
+        'http://143.198.61.94:8000/api/customers/?search_query=$query');
+    final request = _client.get(url);
 
     try {
       final response = await request.timeout(const Duration(seconds: 5));
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
-        final products = jsonData['data']
+        final customers = jsonData['data']
             .cast<Map<String, dynamic>>()
-            .map<Customer>((jsonProduct) => Customer.fromJson(jsonProduct))
+            .map<Customer>((jsonCustomer) => Customer.fromJson(jsonCustomer))
             .toList();
-        return products;
+        return customers;
       } else {
         throw Exception('Failed to load Customers');
       }

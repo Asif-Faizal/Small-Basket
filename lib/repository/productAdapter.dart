@@ -11,7 +11,8 @@ class ProductAdapter extends TypeAdapter<Product> {
     final name = reader.readString();
     final price = reader.readDouble();
     final imageUrl = reader.readString();
-    return Product(id: id, name: name, price: price, imageUrl: imageUrl);
+    return Product(
+        id: id, name: name, price: price, imageUrl: imageUrl, quantity: 1);
   }
 
   @override

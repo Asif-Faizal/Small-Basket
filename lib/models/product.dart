@@ -3,8 +3,10 @@ class Product {
   final String name;
   final double price;
   final String imageUrl;
+  final int quantity;
 
   Product({
+    required this.quantity,
     required this.id,
     required this.name,
     required this.price,
@@ -17,6 +19,7 @@ class Product {
       name: json['name'],
       price: json['price'].toDouble(),
       imageUrl: json['image'] ?? '',
+      quantity: 1,
     );
   }
 }

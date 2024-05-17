@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:machn_tst/bloc/customer_bloc.dart';
 import 'package:machn_tst/bloc/customer_event.dart';
 import 'package:machn_tst/bloc/customer_state.dart';
+import 'package:machn_tst/models/customer.dart';
 import 'package:machn_tst/repository/customer_repository.dart';
 import 'package:machn_tst/view/widgets/customerCard.dart';
 import 'package:http/http.dart' as http;
@@ -15,7 +16,31 @@ class CustomerPage extends StatefulWidget {
 }
 
 class _CustomerPageState extends State<CustomerPage> {
-  final _controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
+  List<Customer> _filteredCustomers = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.addListener(() {
+      setState(() {
+        _filteredCustomers = _filterCustomers(_controller.text);
+      });
+    });
+  }
+
+  List<Customer> _filterCustomers(String query) {
+    final currentState = BlocProvider.of<CustomerBloc>(context).state;
+
+    if (currentState is CustomersLoaded) {
+      return currentState.customers
+          .where((customer) =>
+              customer.name.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+    } else {
+      return [];
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +57,7 @@ class _CustomerPageState extends State<CustomerPage> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new_rounded),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pushNamed(context, '/');
           },
         ),
         actions: const [
@@ -55,6 +80,10 @@ class _CustomerPageState extends State<CustomerPage> {
                     height: 60,
                     width: 240,
                     child: TextField(
+                      onChanged: (query) {
+                        BlocProvider.of<CustomerBloc>(context)
+                            .add(LoadCustomers(query: 'h'));
+                      },
                       controller: _controller,
                       decoration: InputDecoration(
                           hintStyle: const TextStyle(color: Colors.grey),
@@ -101,18 +130,18 @@ class _CustomerPageState extends State<CustomerPage> {
                                     children: [
                                       TextField(
                                         controller: nameController,
-                                        decoration:
-                                            InputDecoration(labelText: "Name"),
+                                        decoration: const InputDecoration(
+                                            labelText: "Name"),
                                       ),
                                       TextField(
                                         controller: emailController,
-                                        decoration: InputDecoration(
+                                        decoration: const InputDecoration(
                                             labelText: "Address"),
                                       ),
                                       TextField(
                                         controller: phoneController,
-                                        decoration:
-                                            InputDecoration(labelText: "Phone"),
+                                        decoration: const InputDecoration(
+                                            labelText: "Phone"),
                                       ),
                                     ],
                                   ),
@@ -168,16 +197,19 @@ class _CustomerPageState extends State<CustomerPage> {
             } else if (state is CustomersLoading) {
               return const Center(child: CircularProgressIndicator());
             } else if (state is CustomersLoaded) {
+              if (_filteredCustomers.isEmpty) {
+                _filteredCustomers = state.customers;
+              }
               return ListView.builder(
                 physics: const BouncingScrollPhysics(),
-                itemCount: state.customers.length,
+                itemCount: _filteredCustomers.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
                       Navigator.pushNamed(context, '/orderplaced');
                     },
                     child: CustomerCard(
-                      customer: state.customers[index],
+                      customer: _filteredCustomers[index],
                     ),
                   );
                 },

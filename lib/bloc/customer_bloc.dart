@@ -10,7 +10,8 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
     on<LoadCustomers>((event, emit) async {
       try {
         emit(CustomersLoading());
-        final customers = await _customerRepository.fetchCustomers();
+        final customers =
+            await _customerRepository.fetchCustomers(query: event.query);
         emit(CustomersLoaded(customers));
       } catch (e) {
         emit(CustomersError(e.toString()));

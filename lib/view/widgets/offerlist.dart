@@ -24,15 +24,12 @@ class _OfferListState extends State<OfferList> {
       child: CarouselSlider(
         items: images
             .take(5)
-            .map((item) => Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(5),
-                      child: Image.network(
-                        item,
-                        fit: BoxFit.fitWidth,
-                      ),
+            .map((item) => Center(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(5),
+                    child: Image.network(
+                      item,
+                      fit: BoxFit.fitWidth,
                     ),
                   ),
                 ))
@@ -41,7 +38,6 @@ class _OfferListState extends State<OfferList> {
           autoPlayAnimationDuration: Duration(seconds: 3),
           autoPlay: true,
           enlargeCenterPage: true,
-          aspectRatio: 16 / 9,
         ),
       ),
     );

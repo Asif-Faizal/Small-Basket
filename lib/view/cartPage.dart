@@ -74,7 +74,7 @@ class _CartPageState extends State<CartPage> {
                           ),
                         ),
                         Text(
-                          '\$${calculateSubTotal().toStringAsFixed(2)}',
+                          '\$${calculateSubTotal().toStringAsFixed(0)}',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Theme.of(context).colorScheme.secondary,

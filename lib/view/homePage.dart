@@ -15,25 +15,30 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final _controller = TextEditingController();
+  String selectedCustomers = '';
 
   List<Product> products = [
     Product(
+        quantity: 1,
         id: 1,
         name: "Orange",
         price: 40,
         imageUrl: "http://143.198.61.94:8000/media/products/images.jpeg"),
     Product(
+        quantity: 1,
         id: 3,
         name: "Papaya",
         price: 100,
         imageUrl: "http://143.198.61.94:8000/media/products/Papaya.png.webp"),
     Product(
+        quantity: 1,
         id: 3,
         name: "Cherry",
         price: 300,
         imageUrl:
             "http://143.198.61.94:8000/media/products/810eZqaozxL._AC_UF10001000_QL80_.jpg"),
     Product(
+        quantity: 1,
         id: 4,
         name: "Mango",
         price: 50,
