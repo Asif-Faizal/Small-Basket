@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:machn_tst/models/product.dart';
+import 'package:machn_tst/view/ddetailsPage.dart';
 
 class ProductCard extends StatelessWidget {
   final Product product;
@@ -11,7 +12,10 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Navigator.pushNamed(context, '/details');
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => DetailsPage(product: product)));
       },
       child: Stack(
         children: [
@@ -77,6 +81,7 @@ class ProductCard extends StatelessWidget {
                               ElevatedButton(
                                 onPressed: () {
                                   _addToCart(product);
+                                  getCartProducts();
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                           backgroundColor: Theme.of(context)
@@ -87,7 +92,9 @@ class ProductCard extends StatelessWidget {
                                                   .colorScheme
                                                   .background,
                                               label: 'undo',
-                                              onPressed: () {}),
+                                              onPressed: () {
+                                                _undo(product);
+                                              }),
                                           behavior: SnackBarBehavior.floating,
                                           content: Text(
                                             '1kg ${product.name} added to Cart',
@@ -138,7 +145,22 @@ class ProductCard extends StatelessWidget {
   void _addToCart(Product product) async {
     print(
         '========================================added ${product.name} to cart==============================================');
-    var box = await Hive.openBox<Product>('products');
+    var box = await Hive.openBox<Product>('cart');
     box.add(product);
+  }
+
+  void _undo(Product product) async {
+    print(
+        '========================================undo ${product.name} from cart==============================================');
+    var box = await Hive.openBox<Product>('cart');
+    box.delete(product);
+  }
+
+  Future<List<Product>> getCartProducts() async {
+    var box = await Hive.openBox<Product>('cart');
+    List<Product> products = box.values.toList();
+    print(
+        '=========================================added to hive ${product.name}===============================================');
+    return products;
   }
 }

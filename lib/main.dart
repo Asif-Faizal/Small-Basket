@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive/hive.dart';
 import 'package:machn_tst/bloc/customer_bloc.dart';
 import 'package:machn_tst/models/colors.dart';
 import 'package:machn_tst/repository/customer_repository.dart';
+import 'package:machn_tst/repository/productAdapter.dart';
 import 'package:machn_tst/view/cartPage.dart';
 import 'package:machn_tst/view/customerPage.dart';
 import 'package:machn_tst/view/homePage.dart';
@@ -13,8 +15,16 @@ import 'package:machn_tst/view/wishlist_page.dart';
 import 'package:machn_tst/viewmodel/bottom_nav_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart' as path_provider;
 
-void main() => runApp(const MyApp());
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final appDocumentDirectory =
+      await path_provider.getApplicationDocumentsDirectory();
+  Hive.init(appDocumentDirectory.path);
+  Hive.registerAdapter(ProductAdapter());
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -30,7 +40,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        title: 'Bottom Nav Demo',
+        title: 'Technaureus Machine Test',
         theme: ThemeData(colorScheme: myColorScheme),
         initialRoute: '/',
         routes: {

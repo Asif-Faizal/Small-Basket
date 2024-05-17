@@ -11,12 +11,12 @@ class MyOrdersPage extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.background,
         foregroundColor: Theme.of(context).colorScheme.secondary,
         elevation: 0,
-        title: Text('My Orders'),
+        title: const Text('My Orders'),
         leading: IconButton(
             onPressed: () {
               Navigator.pushReplacementNamed(context, '/');
             },
-            icon: Icon(Icons.arrow_back_rounded)),
+            icon: const Icon(Icons.arrow_back_rounded)),
       ),
     );
   }

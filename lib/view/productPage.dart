@@ -8,6 +8,7 @@ import 'package:machn_tst/bloc/product_state.dart';
 import 'package:machn_tst/models/product.dart';
 import 'package:machn_tst/repository/product_repository.dart';
 import 'package:machn_tst/view/widgets/appbarActions.dart';
+import 'package:machn_tst/view/widgets/myDrawer.dart';
 import 'package:machn_tst/view/widgets/productCard.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -49,7 +50,9 @@ class _ProductPageState extends State<ProductPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: MyDrawer(),
       appBar: AppBar(
+        foregroundColor: Theme.of(context).colorScheme.secondary,
         toolbarHeight: 70,
         title: Text(
           'Product List',

@@ -45,6 +45,7 @@ dependencies:
   build_runner: ^2.4.9
   http: ^1.1.0
   lottie: ^2.6.0
+  hive_flutter: ^1.1.0
 
 dev_dependencies:
   flutter_test:
