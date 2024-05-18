@@ -5,9 +5,7 @@ class CartRepository {
   static Box<Product>? cartBox;
 
   static Future<Box<Product>?> getCartBox() async {
-    if (cartBox == null) {
-      cartBox = await Hive.openBox<Product>('cart');
-    }
+    cartBox ??= await Hive.openBox<Product>('cart');
     return cartBox;
   }
 

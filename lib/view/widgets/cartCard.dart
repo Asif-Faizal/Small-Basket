@@ -37,10 +37,10 @@ class _CartCardState extends State<CartCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //         builder: (context) => DetailsPage(product: widget.product)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => DetailsPage(product: widget.product)));
       },
       child: Stack(
         children: [

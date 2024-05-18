@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:machn_tst/repository/cart_repositiry.dart';
 import 'package:machn_tst/repository/productAdapter.dart';
+import 'package:machn_tst/repository/wishlist_repository.dart';
+import 'package:machn_tst/view/ddetailsPage.dart';
 
 class ProductCard extends StatelessWidget {
   final Product product;
@@ -11,12 +13,12 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (context) => DetailsPage(product: product),
-        //   ),
-        // );
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailsPage(product: product),
+          ),
+        );
       },
       child: Stack(
         children: [
@@ -89,8 +91,9 @@ class ProductCard extends StatelessWidget {
                                             .colorScheme
                                             .background,
                                         label: 'undo',
-                                        onPressed: () {
-                                          // Add undo functionality here
+                                        onPressed: () async {
+                                          await CartRepository.removeFromCart(
+                                              product.id);
                                         },
                                       ),
                                       behavior: SnackBarBehavior.floating,
@@ -135,8 +138,13 @@ class ProductCard extends StatelessWidget {
           Positioned(
             top: 30,
             right: 10,
-            child: Icon(
-              Icons.favorite,
+            child: IconButton(
+              icon: Icon(
+                Icons.favorite,
+              ),
+              onPressed: () async {
+                await WishRepository.addToWish(product);
+              },
               color: Theme.of(context).colorScheme.error,
             ),
           ),

@@ -1,8 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:machn_tst/repository/productAdapter.dart';
 import 'package:machn_tst/view/widgets/wishlistCard.dart';
 
-class WishlistPage extends StatelessWidget {
+class WishlistPage extends StatefulWidget {
   const WishlistPage({super.key});
+
+  @override
+  State<WishlistPage> createState() => _WishlistPageState();
+}
+
+class _WishlistPageState extends State<WishlistPage> {
+  late Box<Product> _wishBox;
+  List<Product> products = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _openWishBox();
+  }
+
+  Future<void> _openWishBox() async {
+    _wishBox = await Hive.openBox<Product>('wish');
+    _loadWishProducts();
+    _wishBox.watch().listen((event) {
+      _loadWishProducts();
+    });
+  }
+
+  Future<void> _loadWishProducts() async {
+    try {
+      products = _wishBox.values.toList();
+      setState(() {});
+    } catch (e) {
+      print("Error loading cart products: $e");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,13 +93,20 @@ class WishlistPage extends StatelessWidget {
           ),
         ],
       ),
-      body: ListView.builder(
-          physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.all(20),
-          itemCount: 15,
-          itemBuilder: (context, index) {
-            return WishlistCard();
-          }),
+      body: products.isEmpty
+          ? Center(child: Text('Your wishlist is empty!'))
+          : Stack(
+              children: [
+                ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  padding: const EdgeInsets.all(15),
+                  itemCount: products.length,
+                  itemBuilder: (context, index) {
+                    return WishlistCard(product: products[index]);
+                  },
+                ),
+              ],
+            ),
     );
   }
 }

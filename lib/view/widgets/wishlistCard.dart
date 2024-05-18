@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:machn_tst/repository/productAdapter.dart';
 
-class WishlistCard extends StatelessWidget {
+import '../../repository/wishlist_repository.dart';
+
+class WishlistCard extends StatefulWidget {
+  final Product product;
   const WishlistCard({
     super.key,
+    required this.product,
   });
 
+  @override
+  State<WishlistCard> createState() => _WishlistCardState();
+}
+
+class _WishlistCardState extends State<WishlistCard> {
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -35,7 +46,7 @@ class WishlistCard extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                'name',
+                                widget.product.name,
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Theme.of(context)
@@ -48,7 +59,7 @@ class WishlistCard extends StatelessWidget {
                               Row(
                                 children: [
                                   Text(
-                                    '10',
+                                    widget.product.price.toString(),
                                     style: TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold,
@@ -80,7 +91,11 @@ class WishlistCard extends StatelessWidget {
                                           .colorScheme
                                           .secondary),
                                 ),
-                                onPressed: () {},
+                                onPressed: () async {
+                                  await WishRepository.addToWish(
+                                      widget.product);
+                                  _delete(widget.product);
+                                },
                                 child: Text(
                                   'Add to Cart',
                                   style: TextStyle(
@@ -97,7 +112,11 @@ class WishlistCard extends StatelessWidget {
                       top: -5,
                       right: -5,
                       child: IconButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            _delete(widget.product);
+                            await WishRepository.removeFromWish(
+                                widget.product.id);
+                          },
                           icon: Icon(
                             Icons.clear,
                             color: Theme.of(context).colorScheme.secondary,
@@ -112,13 +131,22 @@ class WishlistCard extends StatelessWidget {
           left: 20,
           top: 10,
           child: SizedBox(
-            height: 80,
-            width: 80,
+            height: 60,
+            width: 60,
             child: Image.network(
-                'https://atlas-content-cdn.pixelsquid.com/stock-images/small-bottle-of-milk-rv2NEl2-600.jpg'),
+              'http://143.198.61.94:8000${widget.product.imageUrl}',
+              fit: BoxFit.cover,
+            ),
           ),
         ),
       ],
     );
+  }
+
+  void _delete(Product product) async {
+    print(
+        '========================================Deleted ${product.name} from wish==============================================');
+    var box = await Hive.openBox<Product>('wish');
+    box.deleteAt(box.values.toList().indexOf(product));
   }
 }
