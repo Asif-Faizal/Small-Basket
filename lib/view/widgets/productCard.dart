@@ -4,10 +4,42 @@ import 'package:machn_tst/repository/productAdapter.dart';
 import 'package:machn_tst/repository/wishlist_repository.dart';
 import 'package:machn_tst/view/ddetailsPage.dart';
 
-class ProductCard extends StatelessWidget {
+class ProductCard extends StatefulWidget {
   final Product product;
 
   const ProductCard({super.key, required this.product});
+
+  @override
+  _ProductCardState createState() => _ProductCardState();
+}
+
+class _ProductCardState extends State<ProductCard> {
+  bool isFavorite = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkIfFavorite();
+  }
+
+  Future<void> _checkIfFavorite() async {
+    bool favoriteStatus =
+        await WishRepository.isProductInWishlist(widget.product);
+    setState(() {
+      isFavorite = favoriteStatus;
+    });
+  }
+
+  void _toggleFavorite() async {
+    if (isFavorite) {
+      await WishRepository.removeFromWish(widget.product.id);
+    } else {
+      await WishRepository.addToWish(widget.product);
+    }
+    setState(() {
+      isFavorite = !isFavorite;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +48,7 @@ class ProductCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => DetailsPage(product: product),
+            builder: (context) => DetailsPage(product: widget.product),
           ),
         );
       },
@@ -47,7 +79,7 @@ class ProductCard extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    product.name,
+                                    widget.product.name,
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: Theme.of(context)
@@ -60,7 +92,7 @@ class ProductCard extends StatelessWidget {
                                   Row(
                                     children: [
                                       Text(
-                                        '\$${product.price.toStringAsFixed(2)}',
+                                        '\$${widget.product.price.toStringAsFixed(2)}',
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           color: Colors.green.shade400,
@@ -81,7 +113,8 @@ class ProductCard extends StatelessWidget {
                               ),
                               ElevatedButton(
                                 onPressed: () async {
-                                  await CartRepository.addToCart(product);
+                                  await CartRepository.addToCart(
+                                      widget.product);
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       backgroundColor:
@@ -93,12 +126,12 @@ class ProductCard extends StatelessWidget {
                                         label: 'undo',
                                         onPressed: () async {
                                           await CartRepository.removeFromCart(
-                                              product.id);
+                                              widget.product.id);
                                         },
                                       ),
                                       behavior: SnackBarBehavior.floating,
                                       content: Text(
-                                        '1kg ${product.name} added to Cart',
+                                        '1kg ${widget.product.name} added to Cart',
                                         style: const TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,
@@ -129,7 +162,7 @@ class ProductCard extends StatelessWidget {
             top: 0,
             left: 25,
             child: Image.network(
-              'http://143.198.61.94:8000${product.imageUrl}',
+              'http://143.198.61.94:8000${widget.product.imageUrl}',
               height: 80,
               width: 80,
               fit: BoxFit.cover,
@@ -140,12 +173,10 @@ class ProductCard extends StatelessWidget {
             right: 10,
             child: IconButton(
               icon: Icon(
-                Icons.favorite,
+                isFavorite ? Icons.favorite : Icons.favorite_border,
+                color: Theme.of(context).colorScheme.error,
               ),
-              onPressed: () async {
-                await WishRepository.addToWish(product);
-              },
-              color: Theme.of(context).colorScheme.error,
+              onPressed: _toggleFavorite,
             ),
           ),
         ],

@@ -1,9 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:machn_tst/repository/productAdapter.dart';
 
-class AppbarActions extends StatelessWidget {
-  const AppbarActions({
-    super.key,
-  });
+import '../../repository/cart_repositiry.dart';
+
+class AppbarActions extends StatefulWidget {
+  const AppbarActions({super.key});
+
+  @override
+  _AppbarActionsState createState() => _AppbarActionsState();
+}
+
+class _AppbarActionsState extends State<AppbarActions> {
+  int _itemCount = 0;
+  late Box<Product> _cartBox;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchItemCount();
+    CartRepository.getCartBox().then((cartBox) {
+      _cartBox = cartBox!;
+      _cartBox.watch().listen((_) {
+        _fetchItemCount();
+      });
+    });
+  }
+
+  Future<void> _fetchItemCount() async {
+    setState(() {
+      _itemCount = _cartBox.length;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,9 +82,9 @@ class AppbarActions extends StatelessWidget {
                       decoration: BoxDecoration(
                           color: Theme.of(context).colorScheme.error,
                           borderRadius: BorderRadius.circular(10)),
-                      child: const Center(
+                      child: Center(
                         child: Text(
-                          '0',
+                          '$_itemCount',
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 12,

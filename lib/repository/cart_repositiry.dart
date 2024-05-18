@@ -23,4 +23,9 @@ class CartRepository {
     final cartBox = await getCartBox();
     return cartBox!.values.toList();
   }
+
+  static Future<int> getCartItemCount() async {
+    final cartBox = await getCartBox();
+    return cartBox!.length;
+  }
 }

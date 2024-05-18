@@ -23,4 +23,9 @@ class WishRepository {
     final wishBox = await getWishBox();
     return wishBox!.values.toList();
   }
+
+  static Future<bool> isProductInWishlist(Product product) async {
+    final wishBox = await WishRepository.getWishBox();
+    return wishBox!.values.toList().any((product) => product.id == product.id);
+  }
 }
