@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:machn_tst/models/product.dart';
+import 'package:machn_tst/repository/productAdapter.dart';
 
 class StaticProductCard extends StatelessWidget {
   final Product product;
@@ -11,14 +11,14 @@ class StaticProductCard extends StatelessWidget {
     return Stack(
       children: [
         SizedBox(
-          height: 170,
+          height: 150,
           child: Column(
             children: [
               const SizedBox(
                 height: 20,
               ),
               SizedBox(
-                height: 150,
+                height: 130,
                 child: Card(
                   elevation: 5,
                   shape: RoundedRectangleBorder(
@@ -45,7 +45,6 @@ class StaticProductCard extends StatelessWidget {
                                     fontSize: 16,
                                   ),
                                 ),
-                                const SizedBox(height: 10),
                                 Row(
                                   children: [
                                     Text(

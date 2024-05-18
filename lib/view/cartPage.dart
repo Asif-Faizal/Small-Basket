@@ -3,7 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:machn_tst/models/product.dart';
+import 'package:machn_tst/repository/productAdapter.dart';
 import 'package:machn_tst/view/customerPage.dart';
 import 'package:machn_tst/view/widgets/cartCard.dart';
 
@@ -15,19 +15,27 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  late List<Product> products = [];
+  late Box<Product> _cartBox;
+  List<Product> products = [];
 
   @override
   void initState() {
     super.initState();
+    _openCartBox();
+  }
+
+  Future<void> _openCartBox() async {
+    _cartBox = await Hive.openBox<Product>('cart');
     _loadCartProducts();
+    _cartBox.watch().listen((event) {
+      _loadCartProducts();
+    });
   }
 
   Future<void> _loadCartProducts() async {
     try {
-      var box = await Hive.openBox<Product>('cart');
-      products = box.values.toList();
-      setState(() {}); // Update the UI after fetching products
+      products = _cartBox.values.toList();
+      setState(() {});
     } catch (e) {
       print("Error loading cart products: $e");
     }
@@ -162,7 +170,7 @@ class _CartPageState extends State<CartPage> {
                   ),
                   child: const Center(
                     child: Text(
-                      '0', // Placeholder for number of wishlist items
+                      '0',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 12,

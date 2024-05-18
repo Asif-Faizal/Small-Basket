@@ -23,6 +23,7 @@ Future main() async {
       await path_provider.getApplicationDocumentsDirectory();
   Hive.init(appDocumentDirectory.path);
   Hive.registerAdapter(ProductAdapter());
+  // await Hive.openBox<Product>('cart');
   runApp(MyApp());
 }
 
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Technaureus Machine Test',
         theme: ThemeData(colorScheme: myColorScheme),
         initialRoute: '/',

@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:machn_tst/bloc/product_bloc.dart';
 import 'package:machn_tst/bloc/product_event.dart';
 import 'package:machn_tst/bloc/product_state.dart';
-import 'package:machn_tst/models/product.dart';
+import 'package:machn_tst/repository/productAdapter.dart';
 import 'package:machn_tst/repository/product_repository.dart';
 import 'package:machn_tst/view/widgets/appbarActions.dart';
 import 'package:machn_tst/view/widgets/myDrawer.dart';
@@ -82,7 +82,7 @@ class _ProductPageState extends State<ProductPage> {
                   child: GridView.builder(
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2),
+                            mainAxisSpacing: 20, crossAxisCount: 2),
                     physics: const BouncingScrollPhysics(),
                     itemCount: state.products.length,
                     itemBuilder: (context, index) {

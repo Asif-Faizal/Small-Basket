@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
-import 'package:machn_tst/models/product.dart';
-import 'package:machn_tst/view/ddetailsPage.dart';
+import 'package:machn_tst/repository/cart_repositiry.dart';
+import 'package:machn_tst/repository/productAdapter.dart';
 
 class ProductCard extends StatelessWidget {
   final Product product;
@@ -12,10 +11,12 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => DetailsPage(product: product)));
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => DetailsPage(product: product),
+        //   ),
+        // );
       },
       child: Stack(
         children: [
@@ -23,9 +24,7 @@ class ProductCard extends StatelessWidget {
             height: 170,
             child: Column(
               children: [
-                const SizedBox(
-                  height: 20,
-                ),
+                const SizedBox(height: 20),
                 SizedBox(
                   height: 150,
                   child: Card(
@@ -34,7 +33,7 @@ class ProductCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 10),
+                      padding: const EdgeInsets.only(left: 5),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
@@ -75,33 +74,35 @@ class ProductCard extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(height: 10),
+                                  const SizedBox(height: 10),
                                 ],
                               ),
                               ElevatedButton(
-                                onPressed: () {
-                                  _addToCart(product);
-                                  getCartProducts();
+                                onPressed: () async {
+                                  await CartRepository.addToCart(product);
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                          backgroundColor: Theme.of(context)
-                                              .colorScheme
-                                              .surface,
-                                          action: SnackBarAction(
-                                              backgroundColor: Theme.of(context)
-                                                  .colorScheme
-                                                  .background,
-                                              label: 'undo',
-                                              onPressed: () {
-                                                _undo(product);
-                                              }),
-                                          behavior: SnackBarBehavior.floating,
-                                          content: Text(
-                                            '1kg ${product.name} added to Cart',
-                                            style: const TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold),
-                                          )));
+                                    SnackBar(
+                                      backgroundColor:
+                                          Theme.of(context).colorScheme.surface,
+                                      action: SnackBarAction(
+                                        backgroundColor: Theme.of(context)
+                                            .colorScheme
+                                            .background,
+                                        label: 'undo',
+                                        onPressed: () {
+                                          // Add undo functionality here
+                                        },
+                                      ),
+                                      behavior: SnackBarBehavior.floating,
+                                      content: Text(
+                                        '1kg ${product.name} added to Cart',
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  );
                                 },
                                 style: ElevatedButton.styleFrom(
                                   shape: const CircleBorder(),
@@ -122,45 +123,25 @@ class ProductCard extends StatelessWidget {
             ),
           ),
           Positioned(
-              top: 0,
-              left: 25,
-              child: Image.network(
-                'http://143.198.61.94:8000${product.imageUrl}',
-                height: 80,
-                width: 80,
-                fit: BoxFit.cover,
-              )),
+            top: 0,
+            left: 25,
+            child: Image.network(
+              'http://143.198.61.94:8000${product.imageUrl}',
+              height: 80,
+              width: 80,
+              fit: BoxFit.cover,
+            ),
+          ),
           Positioned(
-              top: 30,
-              right: 10,
-              child: Icon(
-                Icons.favorite,
-                color: Theme.of(context).colorScheme.error,
-              )),
+            top: 30,
+            right: 10,
+            child: Icon(
+              Icons.favorite,
+              color: Theme.of(context).colorScheme.error,
+            ),
+          ),
         ],
       ),
     );
-  }
-
-  void _addToCart(Product product) async {
-    print(
-        '========================================added ${product.name} to cart==============================================');
-    var box = await Hive.openBox<Product>('cart');
-    box.add(product);
-  }
-
-  void _undo(Product product) async {
-    print(
-        '========================================undo ${product.name} from cart==============================================');
-    var box = await Hive.openBox<Product>('cart');
-    box.delete(product);
-  }
-
-  Future<List<Product>> getCartProducts() async {
-    var box = await Hive.openBox<Product>('cart');
-    List<Product> products = box.values.toList();
-    print(
-        '=========================================added to hive ${product.name}===============================================');
-    return products;
   }
 }

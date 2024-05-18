@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:machn_tst/models/product.dart';
+import 'package:machn_tst/repository/productAdapter.dart';
 import 'package:machn_tst/view/ddetailsPage.dart';
 
 class CartCard extends StatefulWidget {
@@ -37,10 +37,10 @@ class _CartCardState extends State<CartCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => DetailsPage(product: widget.product)));
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (context) => DetailsPage(product: widget.product)));
       },
       child: Stack(
         children: [

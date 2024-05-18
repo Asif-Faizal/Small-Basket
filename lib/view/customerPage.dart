@@ -64,12 +64,13 @@ class _CustomerPageState extends State<CustomerPage> {
           Icon(
             Icons.list_rounded,
             color: Colors.black,
+            size: 24,
           )
         ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(60),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Card(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50)),
@@ -82,7 +83,7 @@ class _CustomerPageState extends State<CustomerPage> {
                     child: TextField(
                       onChanged: (query) {
                         BlocProvider.of<CustomerBloc>(context)
-                            .add(LoadCustomers(query: 'h'));
+                            .add(LoadCustomers(query: _controller.text));
                       },
                       controller: _controller,
                       decoration: InputDecoration(
@@ -105,76 +106,80 @@ class _CustomerPageState extends State<CustomerPage> {
                     ),
                   ),
                   SizedBox(
-                    width: 100,
+                    width: 80,
                     child: Row(
                       children: [
                         const Icon(
                           Icons.qr_code_rounded,
+                          size: 24,
                         ),
-                        ElevatedButton(
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext ctx) {
-                                TextEditingController nameController =
-                                    TextEditingController();
-                                TextEditingController emailController =
-                                    TextEditingController();
-                                TextEditingController phoneController =
-                                    TextEditingController();
+                        SizedBox(
+                          width: 50,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext ctx) {
+                                  TextEditingController nameController =
+                                      TextEditingController();
+                                  TextEditingController emailController =
+                                      TextEditingController();
+                                  TextEditingController phoneController =
+                                      TextEditingController();
 
-                                return AlertDialog(
-                                  title: Text("Add Customer"),
-                                  content: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      TextField(
-                                        controller: nameController,
-                                        decoration: const InputDecoration(
-                                            labelText: "Name"),
+                                  return AlertDialog(
+                                    title: Text("Add Customer"),
+                                    content: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        TextField(
+                                          controller: nameController,
+                                          decoration: const InputDecoration(
+                                              labelText: "Name"),
+                                        ),
+                                        TextField(
+                                          controller: emailController,
+                                          decoration: const InputDecoration(
+                                              labelText: "Address"),
+                                        ),
+                                        TextField(
+                                          controller: phoneController,
+                                          decoration: const InputDecoration(
+                                              labelText: "Phone"),
+                                        ),
+                                      ],
+                                    ),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () {},
+                                        child: Container(
+                                          padding: const EdgeInsets.all(14),
+                                          child: const Text("Cancel"),
+                                        ),
                                       ),
-                                      TextField(
-                                        controller: emailController,
-                                        decoration: const InputDecoration(
-                                            labelText: "Address"),
-                                      ),
-                                      TextField(
-                                        controller: phoneController,
-                                        decoration: const InputDecoration(
-                                            labelText: "Phone"),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(ctx).pop();
+                                        },
+                                        child: Container(
+                                          padding: const EdgeInsets.all(14),
+                                          child: const Text("Add"),
+                                        ),
                                       ),
                                     ],
-                                  ),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      onPressed: () {},
-                                      child: Container(
-                                        padding: const EdgeInsets.all(14),
-                                        child: const Text("Cancel"),
-                                      ),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.of(ctx).pop();
-                                      },
-                                      child: Container(
-                                        padding: const EdgeInsets.all(14),
-                                        child: const Text("Add"),
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.indigo,
-                            shape: const CircleBorder(),
-                          ),
-                          child: const Icon(
-                            Icons.add,
-                            size: 16,
-                            color: Colors.white,
+                                  );
+                                },
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.indigo,
+                              shape: const CircleBorder(),
+                            ),
+                            child: const Icon(
+                              Icons.add,
+                              size: 16,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ],

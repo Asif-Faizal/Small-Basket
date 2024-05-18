@@ -1,25 +1,34 @@
 import 'package:hive/hive.dart';
-import 'package:machn_tst/models/product.dart';
 
-class ProductAdapter extends TypeAdapter<Product> {
-  @override
-  final int typeId = 0;
+part 'productAdapter.g.dart';
 
-  @override
-  Product read(BinaryReader reader) {
-    final id = reader.readInt();
-    final name = reader.readString();
-    final price = reader.readDouble();
-    final imageUrl = reader.readString();
+@HiveType(typeId: 0)
+class Product {
+  @HiveField(0)
+  final int id;
+
+  @HiveField(1)
+  final String name;
+
+  @HiveField(2)
+  final double price;
+
+  @HiveField(3)
+  final String imageUrl;
+
+  Product({
+    required this.id,
+    required this.name,
+    required this.price,
+    required this.imageUrl,
+  });
+
+  factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
-        id: id, name: name, price: price, imageUrl: imageUrl, quantity: 1);
-  }
-
-  @override
-  void write(BinaryWriter writer, Product obj) {
-    writer.writeInt(obj.id);
-    writer.writeString(obj.name);
-    writer.writeDouble(obj.price);
-    writer.writeString(obj.imageUrl);
+      id: json['id'] ?? 0,
+      name: json['name'] ?? '',
+      price: json['price'].toDouble() ?? 0,
+      imageUrl: json['image'] ?? '',
+    );
   }
 }

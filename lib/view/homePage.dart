@@ -1,5 +1,6 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
-import 'package:machn_tst/models/product.dart';
+import 'package:machn_tst/repository/productAdapter.dart';
 import 'package:machn_tst/view/widgets/appbarActions.dart';
 import 'package:machn_tst/view/widgets/catogoryList.dart';
 import 'package:machn_tst/view/widgets/myDrawer.dart';
@@ -19,26 +20,22 @@ class _HomePageState extends State<HomePage> {
 
   List<Product> products = [
     Product(
-        quantity: 1,
         id: 1,
         name: "Orange",
         price: 40,
         imageUrl: "http://143.198.61.94:8000/media/products/images.jpeg"),
     Product(
-        quantity: 1,
         id: 3,
         name: "Papaya",
         price: 100,
         imageUrl: "http://143.198.61.94:8000/media/products/Papaya.png.webp"),
     Product(
-        quantity: 1,
         id: 3,
         name: "Cherry",
         price: 300,
         imageUrl:
             "http://143.198.61.94:8000/media/products/810eZqaozxL._AC_UF10001000_QL80_.jpg"),
     Product(
-        quantity: 1,
         id: 4,
         name: "Mango",
         price: 50,
@@ -80,28 +77,45 @@ class _HomePageState extends State<HomePage> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30)),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: TextField(
-                      controller: _controller,
-                      decoration: InputDecoration(
-                          hintStyle: TextStyle(
-                              color: Theme.of(context).colorScheme.onSurface),
-                          hintText: 'Search',
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            borderSide: const BorderSide(color: Colors.white),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            borderSide: const BorderSide(color: Colors.white),
-                          ),
-                          prefixIcon: const Icon(
-                            Icons.search,
-                          ),
-                          prefixIconColor:
-                              Theme.of(context).colorScheme.onSurface),
-                    ),
-                  ),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: DropdownSearch(
+                        dropdownButtonProps: DropdownButtonProps(
+                            focusColor: Colors.white,
+                            color: Colors.white,
+                            highlightColor: Colors.white),
+                        selectedItem: 'Search..',
+                        items: const [
+                          'Papaya',
+                          'Jack Fruit',
+                          'Pomegranate',
+                          'Cherry',
+                          'Mango',
+                          'Orange',
+                          'Kashmir Kiwi',
+                          'Kashmir Apple'
+                        ],
+                      )
+                      // TextField(
+                      //   controller: _controller,
+                      //   decoration: InputDecoration(
+                      //       hintStyle: TextStyle(
+                      //           color: Theme.of(context).colorScheme.onSurface),
+                      //       hintText: 'Search',
+                      //       focusedBorder: OutlineInputBorder(
+                      //         borderRadius: BorderRadius.circular(30),
+                      //         borderSide: const BorderSide(color: Colors.white),
+                      //       ),
+                      //       enabledBorder: OutlineInputBorder(
+                      //         borderRadius: BorderRadius.circular(30),
+                      //         borderSide: const BorderSide(color: Colors.white),
+                      //       ),
+                      //       prefixIcon: const Icon(
+                      //         Icons.search,
+                      //       ),
+                      //       prefixIconColor:
+                      //           Theme.of(context).colorScheme.onSurface),
+                      // ),
+                      ),
                 ),
               ),
             ),
