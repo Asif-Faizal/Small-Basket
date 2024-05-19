@@ -8,7 +8,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
 
   ProductBloc(this.repository) : super(ProductInitial());
 
-  @override
   Stream<ProductState> mapEventToState(ProductEvent event) async* {
     if (event is LoadProducts) {
       yield ProductsLoading();

@@ -14,7 +14,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class ProductPage extends StatefulWidget {
-  ProductPage({super.key});
+  const ProductPage({super.key});
 
   @override
   State<ProductPage> createState() => _ProductPageState();

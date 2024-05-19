@@ -119,7 +119,7 @@ class StaticProductCard extends StatelessWidget {
             top: 30,
             right: 10,
             child: Icon(
-              Icons.favorite,
+              Icons.favorite_outline_rounded,
               color: Theme.of(context).colorScheme.error,
             )),
       ],

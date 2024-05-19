@@ -9,7 +9,6 @@ class WishBloc extends Bloc<WishEvent, WishState> {
 
   WishBloc(this.repository) : super(WishInitial());
 
-  @override
   Stream<WishState> mapEventToState(WishEvent event) async* {
     if (event is WishProducts) {
       yield WishLoading();
