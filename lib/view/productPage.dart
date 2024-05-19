@@ -7,7 +7,6 @@ import 'package:machn_tst/bloc/product_event.dart';
 import 'package:machn_tst/bloc/product_state.dart';
 import 'package:machn_tst/repository/productAdapter.dart';
 import 'package:machn_tst/repository/product_repository.dart';
-import 'package:machn_tst/repository/wishlist_repository.dart';
 import 'package:machn_tst/view/widgets/appbarActions.dart';
 import 'package:machn_tst/view/widgets/myDrawer.dart';
 import 'package:machn_tst/view/widgets/productCard.dart';

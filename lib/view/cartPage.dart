@@ -17,6 +17,7 @@ class CartPage extends StatefulWidget {
 class _CartPageState extends State<CartPage> {
   late Box<Product> _cartBox;
   List<Product> products = [];
+  Map<Product, int> productQuantities = {};
 
   @override
   void initState() {
@@ -35,6 +36,9 @@ class _CartPageState extends State<CartPage> {
   Future<void> _loadCartProducts() async {
     try {
       products = _cartBox.values.toList();
+      productQuantities = {
+        for (var product in products) product: 1,
+      };
       setState(() {});
     } catch (e) {
       print("Error loading cart products: $e");
@@ -44,9 +48,15 @@ class _CartPageState extends State<CartPage> {
   double calculateSubTotal() {
     double subTotal = 0;
     for (var product in products) {
-      subTotal += product.price;
+      subTotal += product.price * (productQuantities[product] ?? 1);
     }
     return subTotal;
+  }
+
+  void _updateQuantity(Product product, int quantity) {
+    setState(() {
+      productQuantities[product] = quantity;
+    });
   }
 
   @override
@@ -54,78 +64,84 @@ class _CartPageState extends State<CartPage> {
     return Scaffold(
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(10),
-        child: BottomAppBar(
-          color: Colors.transparent,
-          height: 100,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Color.fromARGB(156, 131, 204, 48),
-                ),
+        child: products.isEmpty
+            ? Center(child: Text('Your cart is empty!'))
+            : BottomAppBar(
+                color: Colors.transparent,
                 height: 100,
-                width: 100,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Sub Total',
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.secondary,
-                            fontSize: 16,
-                          ),
-                        ),
-                        Text(
-                          '\$${calculateSubTotal().toStringAsFixed(0)}',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.secondary,
-                            fontSize: 26,
-                          ),
-                        ),
-                      ],
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18),
-                        ),
-                        backgroundColor: const Color.fromARGB(115, 94, 163, 14),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: const Color.fromARGB(156, 131, 204, 48),
                       ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CustomerPage(),
+                      height: 100,
+                      width: 100,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Total',
+                                style: TextStyle(
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                  fontSize: 20,
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              Text(
+                                '\$${calculateSubTotal().toStringAsFixed(0)}',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                  fontSize: 26,
+                                ),
+                              ),
+                            ],
                           ),
-                        );
-                      },
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 30,
-                          vertical: 15,
-                        ),
-                        child: Text(
-                          'CHECKOUT NOW',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18),
+                              ),
+                              backgroundColor:
+                                  const Color.fromARGB(115, 94, 163, 14),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CustomerPage(),
+                                ),
+                              );
+                            },
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 30,
+                                vertical: 15,
+                              ),
+                              child: Text(
+                                'CHECKOUT NOW',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
                     ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ),
-        ),
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
@@ -141,46 +157,19 @@ class _CartPageState extends State<CartPage> {
           ),
         ),
         actions: [
-          Stack(
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/wishlist');
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  shape: const CircleBorder(),
-                  padding: const EdgeInsets.all(10),
-                ),
-                child: Icon(
-                  Icons.favorite,
-                  size: 28,
-                  color: Theme.of(context).colorScheme.secondary,
-                ),
-              ),
-              Positioned(
-                top: 5,
-                right: 5,
-                child: Container(
-                  height: 15,
-                  width: 15,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.error,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: const Center(
-                    child: Text(
-                      '0',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/wishlist');
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white,
+              shape: const CircleBorder(),
+            ),
+            child: Icon(
+              Icons.favorite,
+              size: 24,
+              color: Theme.of(context).colorScheme.secondary,
+            ),
           ),
         ],
       ),
@@ -193,7 +182,12 @@ class _CartPageState extends State<CartPage> {
                   padding: const EdgeInsets.all(15),
                   itemCount: products.length,
                   itemBuilder: (context, index) {
-                    return CartCard(product: products[index]);
+                    return CartCard(
+                      product: products[index],
+                      onQuantityChanged: (quantity) {
+                        _updateQuantity(products[index], quantity);
+                      },
+                    );
                   },
                 ),
               ],
