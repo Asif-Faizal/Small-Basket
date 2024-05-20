@@ -1,16 +1,6 @@
-# machn_tst
+# Small Basket
 
-A new Flutter project.
+Small basket is a Local Supermarket app designed with Python Django API on backend for order managment. Products, Customers are provided by the API with search functionality implemented. UI dynamically changes with every update in orders, as a product is added to cart or wishlist. 
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Untitled design (1)](https://github.com/Asif-Faizal/Small-Basket/assets/112123678/4be71478-3f67-4d94-8ae2-e1f568c52b89)
+![Untitled design (2)](https://github.com/Asif-Faizal/Small-Basket/assets/112123678/65881523-b29f-4a64-a8c2-3f6e997607d2)
